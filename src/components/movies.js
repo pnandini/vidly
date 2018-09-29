@@ -12,7 +12,7 @@ class Movies extends Component {
     };
     handleLikeChange = (movie) => {
         const mvs = [...this.state.movies];
-        mvs[mvs.indexOf(movie)].liked = !mvs[mvs.indexOf(movie)].liked
+        mvs[mvs.indexOf(movie)].liked = !mvs[mvs.indexOf(movie)].liked;
         this.setState({movies: mvs});
     };
 
@@ -21,11 +21,11 @@ class Movies extends Component {
          const startIndex = (this.state.currentPage - 1) * this.state.pageSize;
         const cu = this.state.movies.slice(startIndex,startIndex+this.state.pageSize);
         console.log(cu);
-        const curMovies = this.state.movies.filter((movie) => {
+        /*const curMovies = this.state.movies.filter((movie) => {
             const i = this.state.movies.indexOf(movie) + 1;
             //console.log(i);
             return (i > (this.state.currentPage - 1) * Math.ceil(this.state.movies.length / this.state.pageSize)) && i <= (this.state.currentPage * Math.ceil(this.state.movies.length / this.state.pageSize));
-        });
+        });*/
         if (length === 0) return (<p> There are no movies available </p>);
         return (
             <React.Fragment>
