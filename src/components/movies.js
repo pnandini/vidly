@@ -23,32 +23,29 @@ class Movies extends Component {
     handleGenereChange = (genre) => {
         this.setState({selectedGenera:genre});
     };
-    handleSort = (path) => {
-        const sortColumn = {...this.state.sortColumn};
-        if (path === sortColumn.path){
-            sortColumn.order = (sortColumn.order === 'asc')?'desc':'asc';
-        }
-        else{
-            sortColumn.path = path;
-            sortColumn.order = 'asc';
-        }
+    handleSort = (sortColumn) => {
         this.setState({sortColumn});
     };
-
-    render() {
-        const {length} = this.state.movies;
-        const {movies,currentPage,pageSize,selectedGenera,generes,sortColumn} = this.state;
+    getPagedData(){
+        const {movies,currentPage,pageSize,selectedGenera,sortColumn} = this.state;
         const filtered = selectedGenera._id !== "0" ? movies.filter( m => m.genre.name ===selectedGenera.name):movies;
         const sorted = _.orderBy(filtered,[sortColumn.path],[sortColumn.order]);
         //console.log(filtered);
         const cu = Paginate(sorted,currentPage,pageSize);
+        return {data:cu, totalCount:cu.length}
+
+    }
+
+    render() {
+        const {totalCount:length,data:cu} = this.getPagedData();
+        const {selectedGenera,generes,sortColumn} = this.state;
         if (length === 0) return (<p> There are no movies available </p>);
         return (
             <div className="row">
                 <div className="col-2"><Generes allGeners={generes} selected={selectedGenera} handleGenereChange={this.handleGenereChange}/></div>
                 <div className="col">
                 <p> Showing {cu.length} of {length} movies</p>
-                <MoviesTable onDelete={this.handleDelete} onLike={this.handleLikeChange} movies = {cu} onSort={this.handleSort}/>
+                <MoviesTable onDelete={this.handleDelete} sortColumn={sortColumn} onLike={this.handleLikeChange} movies = {cu} onSort={this.handleSort}/>
                     <Pagination itemsCount={length} currentPage={this.state.currentPage} pageSize={this.state.pageSize}
                             onPageChange={this.handlePageChange}/>
 
