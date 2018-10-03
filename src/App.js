@@ -12,9 +12,9 @@ import Movie from "./components/Movie";
 
 class App extends Component {
     render() {
-        return (<main className="container">
+        return (<div>
                 <NavBar/>
-                <div className="content">
+                <main className="container">
                     <Switch>
                         <Route path="/home" component={Movies}/>
                         <Route path="/movies" component={Movies}/>
@@ -22,12 +22,12 @@ class App extends Component {
                         <Route path="/rental" component={Rental}/>
                         <Route path="/movie" component={Movie}/>
                         <Route path="/not-found" component={NotFound}/>
-                        <Redirect from="/home" exact to="/movies"/>
+                        <Redirect from="/home" to="/movies"/>
                         <Redirect from="/" exact to="/home"/>
-                        <Redirect to="/not-found"/>
+                        <Redirect to="/not-found" replace="false"/>
                     </Switch>
-                </div>
-            </main>
+                </main>
+            </div>
         );
     }
 }

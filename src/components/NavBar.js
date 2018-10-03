@@ -12,9 +12,7 @@ const NavBar = (props) => {
             <div className="collapse navbar-collapse" id="">
                 <ul className="navbar-nav mr-auto">
                     {tabs.map(tab => (
-                        <li key={tab.path} className="nav-item active">
-                            <NavLink className="nav-link" to={tab.path}>{tab.label}</NavLink>
-                        </li>
+                        <NavLink className="nav-item nav-link" to={tab.path}>{tab.label}</NavLink>
                     ))}
                 </ul>
             </div>

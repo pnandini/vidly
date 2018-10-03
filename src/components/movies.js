@@ -48,8 +48,9 @@ class Movies extends Component {
             <React.Fragment>
                 <br/>
                 <div className="row">
-                    <div className="col-2"><Generes allGeners={generes} selected={selectedGenera}
-                                                    handleGenereChange={this.handleGenereChange}/></div>
+                    <div className="col-2">
+                        <Generes allGeners={generes} selected={selectedGenera}
+                                 handleGenereChange={this.handleGenereChange}/></div>
                     <div className="col">
                         <p> Showing {cu.length} of {length} movies</p>
                         <MoviesTable onDelete={this.handleDelete} sortColumn={sortColumn} onLike={this.handleLikeChange}
