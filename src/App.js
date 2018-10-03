@@ -16,7 +16,6 @@ class App extends Component {
                 <NavBar/>
                 <main className="container">
                     <Switch>
-                        <Route path="/home" component={Movies}/>
                         <Route path="/movies" component={Movies}/>
                         <Route path="/customers" component={Customers}/>
                         <Route path="/rental" component={Rental}/>
