@@ -9,6 +9,7 @@ import Redirect from "react-router-dom/es/Redirect";
 import NavBar from "./components/NavBar";
 import NotFound from "./components/NotFound";
 import Movie from "./components/Movie";
+import LoginForm from "./components/LoginForm";
 
 class App extends Component {
     render() {
@@ -19,6 +20,7 @@ class App extends Component {
                         <Route path="/movies" component={Movies}/>
                         <Route path="/customers" component={Customers}/>
                         <Route path="/rental" component={Rental}/>
+                        <Route path="/login" component={LoginForm}/>
                         <Route path="/movie" component={Movie}/>
                         <Route path="/not-found" component={NotFound}/>
                         <Redirect from="/home" to="/movies"/>
