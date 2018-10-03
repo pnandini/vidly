@@ -23,7 +23,7 @@ class App extends Component {
                         <Route path="/movie" component={Movie}/>
                         <Route path="/not-found" component={NotFound}/>
                         <Redirect from="/home" to="/movies"/>
-                        <Redirect from="/" exact to="/home"/>
+                        <Redirect from="/" exact to="/movies"/>
                         <Redirect to="/not-found" replace="false"/>
                     </Switch>
                 </main>

@@ -8,7 +8,7 @@ const NavBar = (props) => {
     }];
     return (
         <nav className="navbar navbar-expand navbar-dark bg-dark">
-            <Link className="navbar-brand" to="/home">Vidly</Link>
+            <Link className="navbar-brand" to="/movies">Vidly</Link>
             <div className="collapse navbar-collapse" id="">
                 <ul className="navbar-nav mr-auto">
                     {tabs.map(tab => (

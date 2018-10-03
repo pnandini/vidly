@@ -46,7 +46,6 @@ class Movies extends Component {
 
         return (
             <React.Fragment>
-                <br/>
                 <div className="row">
                     <div className="col-2">
                         <Generes allGeners={generes} selected={selectedGenera}
