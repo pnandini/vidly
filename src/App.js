@@ -10,6 +10,8 @@ import NavBar from "./components/NavBar";
 import NotFound from "./components/NotFound";
 import Movie from "./components/Movie";
 import LoginForm from "./components/LoginForm";
+import RegistrationForm from "./components/RegistrationForm";
+import MovieForm from "./components/MovieForm";
 
 class App extends Component {
     render() {
@@ -20,9 +22,11 @@ class App extends Component {
                         <Route path="/movies" component={Movies}/>
                         <Route path="/customers" component={Customers}/>
                         <Route path="/rental" component={Rental}/>
+                        <Route path="/new-movie" component={MovieForm}/>
                         <Route path="/login" component={LoginForm}/>
                         <Route path="/movie" component={Movie}/>
                         <Route path="/not-found" component={NotFound}/>
+                        <Route path="/register" component={RegistrationForm}/>
                         <Redirect from="/home" to="/movies"/>
                         <Redirect from="/" exact to="/movies"/>
                         <Redirect to="/not-found" replace="false"/>

@@ -8,6 +8,9 @@ const NavBar = (props) => {
         }, {
             path: "/login",
             label: "Login"
+        }, {
+            path: "/register",
+            label: "Register"
         }];
         return (
             <nav className="navbar navbar-expand navbar-dark bg-dark">

@@ -38,6 +38,10 @@ class Movies extends Component {
 
     }
 
+    handleNewMovie() {
+
+    }
+
     render() {
         const {totalCount: length, data: cu} = this.getPagedData();
         const {selectedGenera, generes, sortColumn} = this.state;
@@ -51,7 +55,13 @@ class Movies extends Component {
                         <Generes allGeners={generes} selected={selectedGenera}
                                  handleGenereChange={this.handleGenereChange}/></div>
                     <div className="col">
-                        <p> Showing {cu.length} of {length} movies</p>
+                        {/*<p> Showing {cu.length} of {length} movies</p>*/}
+                        <p>
+                            <button className="btn btn-primary" onClick={() => {
+                                this.props.history.push("/new-movie")
+                            }}>Add Movie
+                            </button>
+                        </p>
                         <MoviesTable onDelete={this.handleDelete} sortColumn={sortColumn} onLike={this.handleLikeChange}
                                      movies={cu} onSort={this.handleSort}/>
                         <Pagination itemsCount={length} currentPage={this.state.currentPage}
