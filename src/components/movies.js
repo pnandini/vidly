@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {getMovies} from "../services/fakeMovieService";
+import {deleteMovie, getMovies} from "../services/fakeMovieService";
 import {getGenres} from "../services/fakeGenreService";
 import Pagination from "./Pagination";
 import Paginate from '../utils/Paginate';
@@ -29,24 +29,19 @@ class Movies extends Component {
     };
 
     getPagedData() {
-        const {movies, currentPage, pageSize, selectedGenera, sortColumn} = this.state;
+        const {movies, selectedGenera, sortColumn} = this.state;
         const filtered = selectedGenera._id !== "0" ? movies.filter(m => m.genre.name === selectedGenera.name) : movies;
         const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
-        //console.log(filtered);
-        const cu = Paginate(sorted, currentPage, pageSize);
-        return {data: cu, totalCount: cu.length}
+        return {data: sorted, totalCount: sorted.length}
 
     }
 
-    handleNewMovie() {
-
-    }
 
     render() {
-        const {totalCount: length, data: cu} = this.getPagedData();
+        const {totalCount: length, data} = this.getPagedData();
+        const cu = Paginate(data, this.state.currentPage, this.state.pageSize);
         const {selectedGenera, generes, sortColumn} = this.state;
         if (length === 0) return (<p> There are no movies available </p>);
-
 
         return (
             <React.Fragment>
@@ -75,8 +70,8 @@ class Movies extends Component {
     }
 
     handleDelete = (movie) => {
-        const movies = this.state.movies.filter(m => m._id !== movie._id);
-        this.setState({movies});
+        deleteMovie(movie._id);
+        this.setState({movies: getMovies()});
     };
 
     handlePageChange = page => {

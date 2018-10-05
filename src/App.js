@@ -14,6 +14,7 @@ import RegistrationForm from "./components/RegistrationForm";
 import MovieForm from "./components/MovieForm";
 
 class App extends Component {
+    //TODO:staticContext warning fix
     render() {
         return (<div>
                 <NavBar/>
@@ -24,7 +25,7 @@ class App extends Component {
                         <Route path="/rental" component={Rental}/>
                         <Route path="/new-movie" component={MovieForm}/>
                         <Route path="/login" component={LoginForm}/>
-                        <Route path="/movie" component={Movie}/>
+                        <Route path="/movie" render={Movie}/>
                         <Route path="/not-found" component={NotFound}/>
                         <Route path="/register" component={RegistrationForm}/>
                         <Redirect from="/home" to="/movies"/>

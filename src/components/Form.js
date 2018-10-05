@@ -43,8 +43,29 @@ class Form extends Component {
         return <button disabled={this.validate()} type="submit" className="btn btn-primary">{label}</button>
     }
 
-    renderInput(name, label, type) {
+    renderInput(name, label, type, options = null) {
         const {formData, errors} = this.state;
+        if (type === "hidden") {
+            return <input type="hidden" name={name} id={name} {...this.props}/>;
+        }
+        if (type === "select") {
+            return (<div className="input-group mb-3">
+                <div className="input-group-prepend">
+                    <label className="input-group-text" htmlFor="inputGroupSelect01">Genre</label>
+                </div>
+
+                <select
+                    className="custom-select" name="genre" onChange={this.handleChange}
+                    value={this.state.formData.genre}>
+                    {options.map((option) => {
+                        return <option key={option.name} name="genre" id={option._id}
+                                       value={option._id}>{option.name}</option>
+                    })
+                    }
+                </select>
+            </div>)
+                ;
+        }
         return (<Input name={name} value={formData[name]}
                        label={label} type={type}
                        onChange={this.handleChange}
