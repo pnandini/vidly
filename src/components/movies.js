@@ -24,7 +24,7 @@ class Movies extends Component {
         this.setState({movies: mvs});
     };
     handleGenereChange = (genre) => {
-        this.setState({selectedGenera: genre});
+        this.setState({selectedGenera: genre, searchTerm: '', currentPage: 1});
     };
     handleSort = (sortColumn) => {
         this.setState({sortColumn});
@@ -38,7 +38,7 @@ class Movies extends Component {
             d.title.toLowerCase().includes(searchTerm)
         );
         console.log(movies);
-        this.setState({movies, selectedGenera: {_id: "0", name: "All Genres"}})
+        this.setState({movies, selectedGenera: {_id: "0", name: "All Genres"}, currentPage: 1})
     };
 
     getPagedData() {
@@ -54,7 +54,7 @@ class Movies extends Component {
         const {totalCount: length, data} = this.getPagedData();
         const cu = Paginate(data, this.state.currentPage, this.state.pageSize);
         const {selectedGenera, generes, sortColumn} = this.state;
-        if (length === 0) return (<p> There are no movies available </p>);
+        // if (length === 0) return (<p> There are no movies available </p>);
 
         return (
             <React.Fragment>
