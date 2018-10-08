@@ -6,6 +6,7 @@ import Paginate from '../utils/Paginate';
 import Generes from './Genres-list-group';
 import MoviesTable from "./moviesTable";
 import _ from 'lodash';
+import Input from "./Input";
 
 class Movies extends Component {
     state = {
@@ -14,7 +15,8 @@ class Movies extends Component {
         currentPage: 1,
         generes: [{_id: "0", name: "All Genres"}, ...getGenres()],
         selectedGenera: {_id: "0", name: "All Genres"},
-        sortColumn: {path: 'title', order: 'asc'}
+        sortColumn: {path: 'title', order: 'asc'},
+        searchTerm: '',
     };
     handleLikeChange = (movie) => {
         const mvs = [...this.state.movies];
@@ -26,6 +28,17 @@ class Movies extends Component {
     };
     handleSort = (sortColumn) => {
         this.setState({sortColumn});
+    };
+    handleSearch = ({currentTarget: input}) => {
+        let searchTerm = input.value;
+        this.setState({searchTerm});
+        searchTerm = searchTerm.toString().toLowerCase();
+        const fMovies = getMovies();
+        const movies = fMovies.filter((d) =>
+            d.title.toLowerCase().includes(searchTerm)
+        );
+        console.log(movies);
+        this.setState({movies, selectedGenera: {_id: "0", name: "All Genres"}})
     };
 
     getPagedData() {
@@ -57,6 +70,9 @@ class Movies extends Component {
                             }}>Add Movie
                             </button>
                         </p>
+
+                        <Input name="search" label="" error="" value={this.state.searchTerm}
+                               onChange={this.handleSearch}/>
                         <MoviesTable onDelete={this.handleDelete} sortColumn={sortColumn} onLike={this.handleLikeChange}
                                      movies={cu} onSort={this.handleSort}/>
                         <Pagination itemsCount={length} currentPage={this.state.currentPage}
