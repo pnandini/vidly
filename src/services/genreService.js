@@ -1,6 +1,6 @@
-import axios from 'axios';
-import config from '../config.json'
+import http from "./httpService";
+import { apiUrl } from "../config.json";
 
 export function getGenres() {
-    return axios.get(config.apiEndPoint + "genres/");
+  return http.get(apiUrl + "/genres");
 }

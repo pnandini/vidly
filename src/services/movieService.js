@@ -1,27 +1,30 @@
-import axios from 'axios';
-import config from '../config.json'
-import * as genresAPI from "./genreService";
+import http from "./httpService";
+import { apiUrl } from "../config.json";
+
+const apiEndpoint = apiUrl + "/movies";
+
+function movieUrl(id) {
+  return `${apiEndpoint}/${id}`;
+}
 
 export function getMovies() {
-    return axios.get(config.apiEndPoint + "movies/");
+  return http.get(apiEndpoint);
 }
-export function deleteMovie(movieid) {
-    return axios.delete(config.apiEndPoint + "movies/"+movieid);
-}
-export function getMovie(id) {
-    return axios.get(config.apiEndPoint + "movies/"+id);
-}
-export async function saveMovie(movie) {
-    let movieInDb = (await getMovies()).data.find(m => m._id === movie._id) || {};
-    movieInDb.title = movie.title;
-    movieInDb.genre = (await genresAPI.getGenres()).data.find(g => g._id === movie.genreId);
-    movieInDb.numberInStock = movie.numberInStock;
-    movieInDb.dailyRentalRate = movie.dailyRentalRate;
-    movieInDb.liked = movie.liked;
 
-    if (!movieInDb._id) {
-        movieInDb._id = (Date.now().toString());
-    }
-    axios.post(config.apiEndPoint+"movies/",movieInDb);
-    return movieInDb;
+export function getMovie(movieId) {
+  return http.get(movieUrl(movieId));
+}
+
+export function saveMovie(movie) {
+  if (movie._id) {
+    const body = { ...movie };
+    delete body._id;
+    return http.put(movieUrl(movie._id), body);
+  }
+
+  return http.post(apiEndpoint, movie);
+}
+
+export function deleteMovie(movieId) {
+  return http.delete(movieUrl(movieId));
 }
