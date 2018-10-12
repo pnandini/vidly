@@ -1,8 +1,8 @@
 import React from 'react';
 import Form from "./Form";
 import Joi from "joi-browser";
-import {getGenres} from "../services/fakeGenreService";
-import {saveMovie} from "../services/fakeMovieService";
+import {getGenres} from "../services/genreService";
+import {saveMovie} from "../services/movieService";
 
 class MovieForm extends Form {
     //ToDo: Handle default select on Genre
@@ -52,13 +52,15 @@ class MovieForm extends Form {
         rate: Joi.number().min(0).max(5).required().label("Rate"),
     };
 
-    render() {
+    async render() {
+        const {data: c} = await getGenres();
+        console.log(c);
         return (
             <div>
                 <form onSubmit={this.handelSubmit}>
                     {this.renderInput('title', 'Title', 'text')}
                     {this.renderInput('id', 'ID', 'hidden')}
-                    {this.renderInput('genre', 'Genre', 'select', getGenres() || '')}
+                    {this.renderInput('genre', 'Genre', 'select', c || '')}
                     {this.renderInput('stock', 'Number in Stock', 'number')}
                     {this.renderInput('rate', 'Rate', 'number')}
                     {this.renderSubmitButton('Save')}

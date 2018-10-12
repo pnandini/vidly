@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {deleteMovie, getMovies} from "../services/fakeMovieService";
-import {getGenres} from "../services/fakeGenreService";
+import {getMovies, deleteMovie} from "../services/movieService";
+import {getGenres} from "../services/genreService";
 import Pagination from "./Pagination";
 import Paginate from '../utils/Paginate';
 import Generes from './Genres-list-group';
@@ -10,14 +10,23 @@ import Input from "./Input";
 
 class Movies extends Component {
     state = {
-        movies: getMovies(),
+        movies: '',
         pageSize: 4,
         currentPage: 1,
-        generes: [{_id: "0", name: "All Genres"}, ...getGenres()],
         selectedGenera: {_id: "0", name: "All Genres"},
         sortColumn: {path: 'title', order: 'asc'},
         searchTerm: '',
     };
+
+
+    async componentDidMount() {
+        const {data: movies} = await getMovies();
+        const {data: gen} = await getGenres();
+        const genres = [{_id: "0", name: "All Genres"}, ...gen];
+        this.setState({movies, genres: genres});
+        console.log(genres);
+    }
+
     handleLikeChange = (movie) => {
         const mvs = [...this.state.movies];
         mvs[mvs.indexOf(movie)].liked = !mvs[mvs.indexOf(movie)].liked;
@@ -29,11 +38,11 @@ class Movies extends Component {
     handleSort = (sortColumn) => {
         this.setState({sortColumn});
     };
-    handleSearch = ({currentTarget: input}) => {
+    handleSearch = async ({currentTarget: input}) => {
         let searchTerm = input.value;
         this.setState({searchTerm});
         searchTerm = searchTerm.toString().toLowerCase();
-        const fMovies = getMovies();
+        const {data: fMovies} = await getMovies();
         const movies = fMovies.filter((d) =>
             d.title.toLowerCase().includes(searchTerm)
         );
@@ -53,15 +62,18 @@ class Movies extends Component {
     render() {
         const {totalCount: length, data} = this.getPagedData();
         const cu = Paginate(data, this.state.currentPage, this.state.pageSize);
-        const {selectedGenera, generes, sortColumn} = this.state;
-        // if (length === 0) return (<p> There are no movies available </p>);
-
+        const {selectedGenera, genres, sortColumn} = this.state;
+        console.log(genres);
+        if (!genres) {
+            return null
+        }
         return (
             <React.Fragment>
                 <div className="row">
                     <div className="col-2">
-                        <Generes allGeners={generes} selected={selectedGenera}
-                                 handleGenereChange={this.handleGenereChange}/></div>
+                        <Generes allGeners={genres} selected={selectedGenera}
+                                 handleGenereChange={this.handleGenereChange}/>
+                    </div>
                     <div className="col">
                         {/*<p> Showing {cu.length} of {length} movies</p>*/}
                         <p>
@@ -85,9 +97,11 @@ class Movies extends Component {
         );
     }
 
-    handleDelete = (movie) => {
-        deleteMovie(movie._id);
-        this.setState({movies: getMovies()});
+    handleDelete = async (movie) => {
+        await deleteMovie(movie._id);
+        const {data: movies} = await getMovies();
+        console.log(movies);
+        this.setState({movies});
     };
 
     handlePageChange = page => {
